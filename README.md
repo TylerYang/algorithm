@@ -1,7 +1,7 @@
 # Tyler's algorithm
 
 * String 
-    - KMP
+    -KMP
 
 * Data Structure    
 
