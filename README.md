@@ -1,8 +1,9 @@
 # Tyler's algorithm
 
-* String
-    -KMP
+* String 
+    - KMP
 
 * Data Structure    
+
     -PriorityQueue
 
