@@ -119,7 +119,7 @@ public class PriorityQueue<AnyType> {
         while(k > 0) {
             int parent = (k - 1) >>> 1;
             Object e = queue[parent];
-            if(comparator.compare((AnyType)e, item) >= 0) break; 
+            if(comparator.compare(item, (AnyType)e) >= 0) break; 
             queue[k] = e;
             k = parent;
         }
