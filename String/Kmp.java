@@ -1,50 +1,46 @@
-public class Kmp{
-    private int[] preProcessPattern(String pattern){
-        int i = 0, j = -1;
-        int[] next = new int[pattern.length() + 1]; 
-        next[i] = j;
-        while(i < pattern.length()){
-            if(j == -1 || pattern.charAt(i) == pattern.charAt(j)){
-                i++;
-                j++;
-                next[i] = j;
+public class KMP{
+    public int[] getNext(String pattern) {
+        int[] next = new int[pattern.length()];
+        next[0] = -1;
+        for(int i = 1; i < pattern.length(); i++) {
+            int index = next[i - 1];
+            while(index >= 0 && pattern.charAt(index + 1) != pattern.charAt(i)) {
+                index = next[index];
+            }
+            if(pattern.charAt(i) == pattern.charAt(index + 1)) {
+                next[i] = index + 1;
             } else {
-                j = next[j];
+                next[i] = -1;
             }
         }
-        
         return next;
     }
-    
-    public int KMPSearch(String pattern, String txt){
-        int i = 0, j = 0;
-        int[] next = preProcessPattern(pattern);
-        while(i < txt.length() && j < pattern.length()){
-            if(j == -1 ||  txt.charAt(i) == pattern.charAt(j)){
-                i++;
-                j++; 
+
+    public int kmpMatch(String target, String pattern) {
+        int[] next = getNext(pattern);
+        int targetIdx = 0, patternIdx = 0;
+        while(targetIdx < target.length() && patternIdx < pattern.length()){
+            if(target.charAt(targetIdx) == pattern.charAt(patternIdx)){
+                targetIdx++;
+                patternIdx++;
+            } else if(patternIdx == 0) {
+                targetIdx++;
             } else {
-                j = next[j];            
+                patternIdx = next[patternIdx - 1] + 1;
             }
+            System.out.println("match");
         }
-        if(j == pattern.length()){
-            return i - j;
+        if(patternIdx == pattern.length()) {
+            return targetIdx - patternIdx;
         } else {
             return -1;
-        } 
-    }
-    public void printArray(int[] arr){
-        for(int i = 0; i < arr.length; i++){
-            System.out.print(arr[i] + " ");
         }
     }
-    public static void main(String[] args){
-        Kmp k = new Kmp();
-        String txt = "ABCD ASDFASFABCDABCASVZX";
-        String pattern = "ABCDABC";
-       
-        System.out.println("Here is KMP matche result:");
-        System.out.println(k.KMPSearch(pattern, txt));
-        
+    public static void main(String[] args){ 
+        KMP kmp = new KMP();
+        String pattern = "aab";
+        String target = "bbaa";
+        System.out.println(kmp.kmpMatch(target, pattern));
     }
-} 
+
+}
